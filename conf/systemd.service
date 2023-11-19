@@ -1,15 +1,20 @@
 [Unit]
-Description=Small description of the service
-After=network.target
+Description=openHAB - empowering the smart home
+Documentation=https://www.openhab.org/docs/
+Documentation=https://community.openhab.org
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple
 User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/
-ExecStart=__INSTALL_DIR__/script
-StandardOutput=append:/var/log/__APP__/__APP__.log
-StandardError=inherit
+ExecStart=__INSTALL_DIR__/runtime/bin/karaf daemon
+ExecStop=__INSTALL_DIR__/runtime/bin/karaf stop
+Restart=on-failure
+SuccessExitStatus=0 143
+
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these
